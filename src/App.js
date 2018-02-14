@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>HIYA PEOPLE!!</h1>
+        <h1 className="page-header">Spotify Quick Lookup</h1>
         <SearchBar />
         <TrackList />
       </div>
