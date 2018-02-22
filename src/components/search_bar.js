@@ -10,7 +10,7 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { 
+        this.state = {
             query: 'jazz',
             matchingTracks: []
         };
@@ -23,7 +23,7 @@ class SearchBar extends Component {
         let key = id + ":" + secret;
         key = btoa(key);
         const authToken = await Axios.post(authUrl, {}, {
-            headers: { Authorization : "Basic " + key}
+            headers: { Authorization: "Basic " + key }
         });
 
         return authToken.data;
@@ -32,29 +32,29 @@ class SearchBar extends Component {
     async getTracks(query, authToken) {
         let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
         const response = await Axios.get(url, {
-            headers : {
+            headers: {
                 Authorization: "Bearer " + authToken.access_token
             }
         });
-        
+
         return response;
     }
 
     componentDidMount = async newProps => {
         const authToken = await this.getPermission();
         const tracks = await this.getTracks("", authToken);
-        
+
         this.props.updateTracks(tracks.data.tracks.items);
     };
 
     render() {
         return (
-            <div className="search-bar input-group-mb">
-                <div className="input-group-prepend">
-                    <span className="input-group-text" id="inputGroup-sizing-default">Search</span>
+                <div className="input-group search-bar">
+                    <input type="text" className="form-control" placeholder="Search for..." />
+                    <span className="input-group-btn">
+                        <button className="btn btn-primary" type="button">Go!</button>
+                    </span>
                 </div>
-                <input type="text" aria-describedby="inputGroup-sizing-default" />
-            </div>
         )
     }
 }
