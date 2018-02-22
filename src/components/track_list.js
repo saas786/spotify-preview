@@ -1,16 +1,22 @@
-import React, {Component} from 'react';
+import React from 'react';
 import TrackListItem from './track_list_item';
 
-class TrackList extends Component {
-    render() {
+const TrackList = (props) => {
+    const trackItems = props.tracks.map(track => {
         return (
+            <TrackListItem 
+            key = {track.id}
+            track = {track} />
+        )
+    });
+    
+    return (
             <div className="track-list">
                 <ul className="unstyled-list">
-                    <TrackListItem />
+                    {trackItems}
                 </ul>
             </div>
         )
-    }
 }
 
 export default TrackList;
