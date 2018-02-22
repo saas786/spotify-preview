@@ -7,17 +7,16 @@ class App extends Component {
         super(props);
 
         this.state = {
-            trackQuery: "",
+            query: '',
             tracks: []
         };
     }
-    
-    onChange = (state) => {
-        this.setState(state);
-    }
 
-    updateTracks = (tracks) => {
-        this.setState({tracks: tracks});
+    updateTracks = (query, tracks) => {
+        this.setState({
+            query: query,
+            tracks: tracks
+        });
     }
 
     render() {
@@ -25,7 +24,7 @@ class App extends Component {
             <div className="App">
                 <h1 className="page-header">Spotify Quick Lookup</h1>
                 <SearchBar updateTracks={this.updateTracks} />
-                <TrackList tracks={this.state.tracks} />
+                <TrackList query={this.state.query} tracks={this.state.tracks} />
             </div>
         );
     }

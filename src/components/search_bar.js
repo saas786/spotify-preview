@@ -11,7 +11,7 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-            query: 'jazz',
+            query: '',
             matchingTracks: []
         };
     }
@@ -41,20 +41,39 @@ class SearchBar extends Component {
     }
 
     componentDidMount = async newProps => {
+
+    };
+
+    onQueryChange = e => {
+        this.setState({
+            query: e.target.value
+        });
+    };
+
+    onSearch = async (e) => {
+        e.preventDefault(); // stops page from being posted
+        console.log('search called');
         const authToken = await this.getPermission();
         const tracks = await this.getTracks("", authToken);
 
-        this.props.updateTracks(tracks.data.tracks.items);
+        this.props.updateTracks(this.state.query, tracks.data.tracks.items);
     };
 
     render() {
         return (
+            <form onSubmit={this.onSearch}>
                 <div className="input-group search-bar">
-                    <input type="text" className="form-control" placeholder="Search for..." />
+                    <input type="text"
+                        className="form-control"
+                        placeholder="Search tracks..."
+                        value={this.state.query}
+                        onChange={this.onQueryChange}
+                    />
                     <span className="input-group-btn">
-                        <button className="btn btn-primary" type="button">Go!</button>
+                        <button className="btn btn-primary" type="submit">Go!</button>
                     </span>
                 </div>
+            </form>
         )
     }
 }
