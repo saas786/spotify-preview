@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
+
 class SearchBar extends Component {
+    baseUrl() {
+        return "https://cs-554-spotify-proxy.herokuapp.com";
+    }
+
     constructor(props) {
         super(props);
 
@@ -12,30 +17,35 @@ class SearchBar extends Component {
     }
 
     async getPermission() {
-        let authUrl = " https://cs-554-spotify-proxy.herokuapp.com/api/token";
+        let authUrl = `${this.baseUrl()}/api/token`;
         const id = "5c81ebb84b61439ba96b4ea1f07502bd";
         const secret = "2a2e332a64c0492898e69396221ed73a";
         let key = id + ":" + secret;
-        key = btoa(key)
+        key = btoa(key);
         const authToken = await Axios.post(authUrl, {}, {
             headers: { Authorization : "Basic " + key}
         });
 
-        console.log("Token: ", authToken.data.access_token);
         return authToken.data;
     }
 
-    async getTracks(query) {
-        query = this.state.query;
-        let url = `https://api.spotify.com/v1/searchq=${query}&type=track`;
-        const response = await Axios.get(url);
-        console.log(response);
+    async getTracks(query, authToken) {
+        //query = this.state.query;
+        console.log("Token: ", authToken);
+        let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
+        const response = await Axios.get(url, {
+            headers : {
+                Authorization: "Bearer " + authToken.access_token
+            }
+        });
+        
         return response;
     }
 
     componentDidMount = async newProps => {
         const authToken = await this.getPermission();
-        //const tracks = await this.getTracks(query, authToken);
+        const tracks = await this.getTracks("", authToken);
+        console.log("Tracks ", tracks.data.tracks.items);
         // this.setState({
         //     matchingTracks : tracks
         // });
