@@ -52,7 +52,6 @@ class SearchBar extends Component {
 
     onSearch = async (e) => {
         e.preventDefault(); // stops page from being posted
-        console.log('search called');
         const authToken = await this.getPermission();
         const tracks = await this.getTracks("", authToken);
 
