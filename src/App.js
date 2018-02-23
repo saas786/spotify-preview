@@ -19,12 +19,24 @@ class App extends Component {
         });
     }
 
+    displayTrackList = () => {
+        return <TrackList query={this.state.query} tracks={this.state.tracks} />;
+    }
+
+    displayMessage = () => {
+        return (
+            <div className="alert alert-info">
+                <h4 className="alert-heading">Go ahead! Search for your favorite track.</h4>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className="App">
                 <h1 className="page-header">Spotify Quick Lookup</h1>
                 <SearchBar updateTracks={this.updateTracks} />
-                <TrackList query={this.state.query} tracks={this.state.tracks} />
+                {this.state.tracks.length > 0 ? this.displayTrackList() : this.displayMessage()}
             </div>
         );
     }
