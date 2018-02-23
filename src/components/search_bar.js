@@ -40,10 +40,6 @@ class SearchBar extends Component {
         return response;
     }
 
-    componentDidMount = async newProps => {
-
-    };
-
     onQueryChange = e => {
         this.setState({
             query: e.target.value
