@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SearchBar from './components/search_bar';
 import TrackList from './components/track_list';
+import AudioPlayer from './components/audio_player';
 
 class App extends Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class App extends Component {
 
         this.state = {
             query: '',
-            tracks: []
+            tracks: [],
+            selectedTrack: null
         };
     }
 
@@ -36,6 +38,13 @@ class App extends Component {
             <div className="App">
                 <h1 className="page-header">Spotify Quick Lookup</h1>
                 <SearchBar updateTracks={this.updateTracks} />
+                {
+                    (() => {
+                        if(this.state.selectedTrack) {
+                            <AudioPlayer audioTrack={this.state.selectedTrack} />
+                        }
+                    })()
+                }
                 {this.state.tracks.length > 0 ? this.displayTrackList() : this.displayMessage()}
             </div>
         );

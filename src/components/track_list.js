@@ -1,7 +1,7 @@
 import React from 'react';
 import TrackListItem from './track_list_item';
 
-const TrackList = (props) => {    
+const TrackList = (props) => {
     const trackItems = props.tracks.map(track => {
         return (
             <TrackListItem 
