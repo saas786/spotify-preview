@@ -10,15 +10,9 @@ class App extends Component {
         this.state = {
             query: '',
             tracks: [],
-            selectedTrack: null
+            selectedTrack: null,
+            token: ''
         };
-    }
-
-    updateTracks = (query, tracks) => {
-        this.setState({
-            query: query,
-            tracks: tracks
-        });
     }
 
     displayTrackList = () => {
@@ -41,7 +35,7 @@ class App extends Component {
 
     loadAudioPlayer = () => {
         if(this.state.selectedTrack) {
-            return <AudioPlayer audioTrack={this.state.selectedTrack} />;
+            return <AudioPlayer token={this.state.token} audioTrack={this.state.selectedTrack} />;
         }
     }
 
@@ -49,7 +43,11 @@ class App extends Component {
         return (
             <div className="App">
                 <h1 className="page-header">Spotify Quick Lookup</h1>
-                <SearchBar updateTracks={this.updateTracks} />
+                <SearchBar 
+                    token={this.state.token} 
+                    updateToken={token => this.setState( {token} )} 
+                    updateTracks={(query, tracks) => this.setState({query, tracks})} 
+                />
                 {this.loadAudioPlayer()}
                 {this.state.tracks.length > 0 ? this.displayTrackList() : this.displayMessage()}
             </div>

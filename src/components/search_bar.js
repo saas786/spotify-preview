@@ -14,6 +14,8 @@ class SearchBar extends Component {
             query: '',
             matchingTracks: []
         };
+
+        this.token = props.token;
     }
 
     async getPermission() {
@@ -29,13 +31,13 @@ class SearchBar extends Component {
         return authToken.data;
     }
 
-    async getTracks(query, authToken) {
+    async getTracks(query) {
         let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
         const response = await Axios.get(url, {
             headers: {
-                Authorization: "Bearer " + authToken.access_token
+                Authorization: "Bearer " + this.token.access_token
             }
-        });
+        }); // catch token expiry
 
         return response;
     }
@@ -48,8 +50,11 @@ class SearchBar extends Component {
 
     onSearch = async (e) => {
         e.preventDefault(); // stops page from being posted
-        const authToken = await this.getPermission();
-        const tracks = await this.getTracks("", authToken);
+        if (!this.token) {
+            this.token = await this.getPermission();
+            this.props.updateToken(this.token);
+        }
+        const tracks = await this.getTracks("");
 
         this.props.updateTracks(this.state.query, tracks.data.tracks.items);
     };
