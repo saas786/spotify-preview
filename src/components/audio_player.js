@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import Axios from 'axios';
 
 class AudioPlayer extends Component {
@@ -30,7 +31,6 @@ class AudioPlayer extends Component {
 
     componentWillMount = async () => {
         if (this.props.audioTrackId) {
-            console.log("id ", this.props.audioTrackId);
             this.setState({audioTrackId: this.props.audioTrackId});
         }
 
@@ -38,11 +38,27 @@ class AudioPlayer extends Component {
         this.setState({previewTrack: trackData.data.preview_url}); 
     };
 
+    componentWillReceiveProps = async newProps => {
+        if (newProps.audioTrackId) {
+            console.log("id ", newProps.audioTrackId);
+            this.setState({audioTrackId: newProps.audioTrackId});
+        }
+
+        let trackData = await this.getTrackData(this.state.audioTrackId);
+        this.setState({previewTrack: trackData.data.preview_url});
+        
+        // hack to re-load audio control
+        let element = ReactDOM.findDOMNode(this);
+        let audio = element.querySelector('audio');
+        audio.load();
+        audio.play();
+    };
+
     loadAudioPlayerControl = () => {
         if(this.state.previewTrack) {
             return (
                 <div id="audio-player-wrap">
-                    <audio id="audioPlayer" controls>
+                    <audio id="audioPlayer" autoPlay controls>
                         <source src={this.state.previewTrack} type="audio/mpeg" />
                         Your browser does not support HTML5 Audio!
                     </audio>
