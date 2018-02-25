@@ -6,7 +6,8 @@ const TrackList = (props) => {
         return (
             <TrackListItem 
             key = {track.id}
-            track = {track} />
+            track = {track}
+            onTrackSelect={props.onTrackSelect} />
         )
     });
     

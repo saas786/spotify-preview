@@ -11,9 +11,11 @@ const TrackListItem = (props) => {
     const popularity = track.popularity;
     const albumName = album.name;
     const albumUrl = album.external_urls.spotify;
+    const trackUrl = track.href;
+    //const onTrackSelect = props.onTrackSelect;
 
     return (
-        <li className="list-group-item">
+        <li className="list-group-item" onClick={() => props.onTrackSelect(trackUrl)}>
             <div className="audio-list media">
             <img className="pull-left" src={thumbnail} alt="Album Cover" />
                 <div className="media-body">

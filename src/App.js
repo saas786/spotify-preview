@@ -22,7 +22,13 @@ class App extends Component {
     }
 
     displayTrackList = () => {
-        return <TrackList query={this.state.query} tracks={this.state.tracks} />;
+        return (
+        <TrackList 
+            query={this.state.query} 
+            tracks={this.state.tracks} 
+            onTrackSelect={selectedTrack => this.setState({selectedTrack: selectedTrack})} 
+        />
+        )
     }
 
     displayMessage = () => {
@@ -33,18 +39,18 @@ class App extends Component {
         )
     }
 
+    loadAudioPlayer = () => {
+        if(this.state.selectedTrack) {
+            return <AudioPlayer audioTrack={this.state.selectedTrack} />;
+        }
+    }
+
     render() {
         return (
             <div className="App">
                 <h1 className="page-header">Spotify Quick Lookup</h1>
                 <SearchBar updateTracks={this.updateTracks} />
-                {
-                    (() => {
-                        if(this.state.selectedTrack) {
-                            <AudioPlayer audioTrack={this.state.selectedTrack} />
-                        }
-                    })()
-                }
+                {this.loadAudioPlayer()}
                 {this.state.tracks.length > 0 ? this.displayTrackList() : this.displayMessage()}
             </div>
         );
