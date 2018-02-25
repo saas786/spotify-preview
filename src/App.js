@@ -35,7 +35,7 @@ class App extends Component {
 
     loadAudioPlayer = () => {
         if(this.state.selectedTrack) {
-            return <AudioPlayer token={this.state.token} audioTrack={this.state.selectedTrack} />;
+            return <AudioPlayer token={this.state.token} audioTrackId={this.state.selectedTrack} />;
         }
     }
 

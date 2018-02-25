@@ -34,9 +34,9 @@ class SearchBar extends Component {
     async getTracks(query) {
         let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
         const response = await Axios.get(url, {
-            headers: {
-                Authorization: "Bearer " + this.token.access_token
-            }
+                headers: {
+                    Authorization: "Bearer " + this.token.access_token
+                }
         }); // catch token expiry
 
         return response;
