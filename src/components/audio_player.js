@@ -9,7 +9,8 @@ class AudioPlayer extends Component {
         this.state= {
             token: props.token,
             audioTrackId: props.audioTrackId,
-            previewTrack: ''
+            previewTrack: [],
+            previewUrl : null
         };
 
         this.baseUrl = "https://cs-554-spotify-proxy.herokuapp.com";
@@ -35,7 +36,13 @@ class AudioPlayer extends Component {
         }
 
         let trackData = await this.getTrackData(this.state.audioTrackId);
-        this.setState({previewTrack: trackData.data.preview_url}); 
+        this.setState(
+            {
+                previewTrack: trackData.data,
+                previewUrl: trackData.data.preview_url
+            }
+        );
+        console.log("Track : ", this.state.previewTrack);        
     };
 
     componentWillReceiveProps = async newProps => {
@@ -45,27 +52,37 @@ class AudioPlayer extends Component {
         }
 
         let trackData = await this.getTrackData(this.state.audioTrackId);
-        this.setState({previewTrack: trackData.data.preview_url});
+        this.setState(
+            {
+                previewTrack: trackData.data,
+                previewUrl: trackData.data.preview_url
+            }
+        );
+        console.log("Track : ", this.state.previewTrack);
         
         // hack to re-load audio control
         let element = ReactDOM.findDOMNode(this);
         let audio = element.querySelector('audio');
-        audio.load();
-        audio.play();
+        if (audio) {
+            audio.load();
+            audio.play();
+        }
     };
 
     loadAudioPlayerControl = () => {
-        if(this.state.previewTrack) {
+        if(this.state.previewTrack && this.state.previewUrl) {
             return (
-                <div id="audio-player-wrap">
+                <div className="audio-player-wrap">
                     <audio id="audioPlayer" autoPlay controls>
-                        <source src={this.state.previewTrack} type="audio/mpeg" />
+                        <source src={this.state.previewUrl} type="audio/mpeg" />
                         Your browser does not support HTML5 Audio!
                     </audio>
                 </div>
             )
-        } else {
-            return <div>Track Loading...</div>
+        } if(this.state.previewTrack && this.state.previewUrl === null) {
+            return <div className="alert alert-danger">No preview found!</div>
+        }  else {
+            return <div className="alert alert-warning">Track Loading...</div>
         }
     }
 
