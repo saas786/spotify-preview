@@ -42,23 +42,24 @@ class AudioPlayer extends Component {
                 previewUrl: trackData.data.preview_url
             }
         );
-        console.log("Track : ", this.state.previewTrack);        
+        //console.log("Mouont Id ", this.props.audioTrackId);        
+        //console.log("Mount Track : ", this.state.previewTrack.name);        
     };
 
     componentWillReceiveProps = async newProps => {
         if (newProps.audioTrackId) {
-            console.log("id ", newProps.audioTrackId);
+            //console.log("RecvProps id ", newProps.audioTrackId);
             this.setState({audioTrackId: newProps.audioTrackId});
         }
 
-        let trackData = await this.getTrackData(this.state.audioTrackId);
+        let trackData = await this.getTrackData(newProps.audioTrackId);
         this.setState(
             {
                 previewTrack: trackData.data,
                 previewUrl: trackData.data.preview_url
             }
         );
-        console.log("Track : ", this.state.previewTrack);
+        //console.log("RecvProps Track : ", this.state.previewTrack.name);
         
         // hack to re-load audio control
         let element = ReactDOM.findDOMNode(this);
@@ -70,7 +71,11 @@ class AudioPlayer extends Component {
     };
 
     loadAudioPlayerControl = () => {
-        if(this.state.previewTrack && this.state.previewUrl) {
+        if(this.state.previewTrack.length === 0) {
+            return <div className="alert alert-warning">Track Loading...</div>
+        } else if(this.state.previewTrack && this.state.previewUrl === null) {
+            return <div className="alert alert-danger">No preview found!</div>    
+        } else if(this.state.previewTrack && this.state.previewUrl) {
             return (
                 <div className="audio-player-wrap">
                     <audio id="audioPlayer" autoPlay controls>
@@ -79,10 +84,6 @@ class AudioPlayer extends Component {
                     </audio>
                 </div>
             )
-        } if(this.state.previewTrack && this.state.previewUrl === null) {
-            return <div className="alert alert-danger">No preview found!</div>
-        }  else {
-            return <div className="alert alert-warning">Track Loading...</div>
         }
     }
 
