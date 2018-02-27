@@ -46,7 +46,7 @@ class App extends Component {
                 <SearchBar 
                     token={this.state.token} 
                     updateToken={token => this.setState( {token} )} 
-                    updateTracks={(query, tracks) => this.setState({query, tracks})} 
+                    updateTracks={(query, tracks) => this.setState({query, tracks, selectedTrack: null})} 
                 />
                 {this.loadAudioPlayer()}
                 {this.state.tracks.length > 0 ? this.displayTrackList() : this.displayMessage()}

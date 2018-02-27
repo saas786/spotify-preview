@@ -31,7 +31,7 @@ class SearchBar extends Component {
         return authToken.data;
     }
 
-    async getTracks(query) {
+    async getTracks() {
         let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
         const response = await Axios.get(url, {
                 headers: {
@@ -54,7 +54,7 @@ class SearchBar extends Component {
             this.token = await this.getPermission();
             this.props.updateToken(this.token);
         }
-        const tracks = await this.getTracks("");
+        const tracks = await this.getTracks();
 
         this.props.updateTracks(this.state.query, tracks.data.tracks.items);
     };
