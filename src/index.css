@@ -48,6 +48,10 @@ body {
     text-align: center;
 }
 
+.album-name:hover {
+    text-decoration: none;
+}
+
 /* Player Overrides, Ref: https://codepen.io/dcastanos/pen/FeJiu */
 
 audio:hover, audio:focus, audio:active

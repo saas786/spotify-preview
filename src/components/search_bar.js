@@ -32,14 +32,21 @@ class SearchBar extends Component {
     }
 
     async getTracks() {
-        let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
-        const response = await Axios.get(url, {
-                headers: {
-                    Authorization: "Bearer " + this.token.access_token
-                }
-        }); // catch token expiry
-
-        return response;
+        let response = {};
+        try {
+            if (this.state.query.length > 0) {
+                let url = `${this.baseUrl()}/v1/search?q=${this.state.query}&type=track`;
+                response = await Axios.get(url, {
+                        headers: {
+                            Authorization: "Bearer " + this.token.access_token
+                        }
+                });
+            }
+        } catch(error) {
+            console.log("Error fetching tracks");
+        } finally {
+            return response;
+        }
     }
 
     onQueryChange = e => {
@@ -56,7 +63,11 @@ class SearchBar extends Component {
         }
         const tracks = await this.getTracks();
 
-        this.props.updateTracks(this.state.query, tracks.data.tracks.items);
+        if (Object.keys(tracks).length > 0) { // empty string or empty result
+            this.props.updateTracks(this.state.query, tracks.data.tracks.items);
+        } else {
+            this.props.updateTracks(this.state.query, tracks);
+        }
     };
 
     render() {

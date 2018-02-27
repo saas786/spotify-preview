@@ -21,7 +21,7 @@ const TrackListItem = (props) => {
                         <a href={artistUrl}>{artistName}</a>
                     </h4>
                     <div>
-                        <a href={albumUrl}>Album: {albumName} </a>
+                        <a className="album-name" target="_blank" href={albumUrl}>Album: {albumName} </a>
                         <span className="pull-right">Popularity: {popularity}</span>
                     </div>
                 </div>
