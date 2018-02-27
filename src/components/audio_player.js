@@ -7,14 +7,11 @@ class AudioPlayer extends Component {
         super(props);
 
         this.state= {
-            token: props.token,
-            audioTrackId: props.audioTrackId,
             previewTrack: [],
             previewUrl : null
         };
 
         this.baseUrl = "https://cs-554-spotify-proxy.herokuapp.com";
-        this.audioTrackId = props.audioTrackId;
         this.token = props.token;
     }
 
@@ -31,11 +28,7 @@ class AudioPlayer extends Component {
     };
 
     componentWillMount = async () => {
-        if (this.props.audioTrackId) {
-            this.setState({audioTrackId: this.props.audioTrackId});
-        }
-
-        let trackData = await this.getTrackData(this.state.audioTrackId);
+        let trackData = await this.getTrackData(this.props.audioTrackId);
         this.setState(
             {
                 previewTrack: trackData.data,
@@ -47,11 +40,6 @@ class AudioPlayer extends Component {
     };
 
     componentWillReceiveProps = async newProps => {
-        if (newProps.audioTrackId) {
-            //console.log("RecvProps id ", newProps.audioTrackId);
-            this.setState({audioTrackId: newProps.audioTrackId});
-        }
-
         let trackData = await this.getTrackData(newProps.audioTrackId);
         this.setState(
             {
