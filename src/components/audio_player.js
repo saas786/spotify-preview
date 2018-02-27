@@ -65,11 +65,14 @@ class AudioPlayer extends Component {
             return <div className="alert alert-danger">No preview found!</div>    
         } else if(this.state.previewTrack && this.state.previewUrl) {
             return (
-                <div className="audio-player-wrap">
-                    <audio id="audioPlayer" autoPlay controls>
-                        <source src={this.state.previewUrl} type="audio/mpeg" />
-                        Your browser does not support HTML5 Audio!
-                    </audio>
+                <div>
+                    <p className="lead">Playing {this.state.previewTrack.name}</p>
+                    <div className="audio-player-wrap">
+                        <audio id="audioPlayer" autoPlay controls>
+                            <source src={this.state.previewUrl} type="audio/mpeg" />
+                            Your browser does not support HTML5 Audio!
+                        </audio>
+                    </div>
                 </div>
             )
         }

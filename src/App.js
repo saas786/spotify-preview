@@ -42,7 +42,10 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1 className="page-header">Spotify Quick Lookup</h1>
+            <div className="page-header">
+                <h1>Spotify Quick Lookup</h1>
+                <p className="lead">Look for a particular album, track or artist on Spotify and enjoy a free preview of 30 seconds.</p>
+            </div>
                 <SearchBar 
                     token={this.state.token} 
                     updateToken={token => this.setState( {token} )} 

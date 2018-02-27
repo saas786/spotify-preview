@@ -6,7 +6,7 @@ body {
 
 .page-header {
   text-align: center;
-  border-bottom: none;
+  margin: 40px 10px 20px; 
 }
 
 .search-bar {
@@ -41,6 +41,10 @@ body {
 }
 
 .audio-player-wrap {
+    text-align: center;
+}
+
+.lead {
     text-align: center;
 }
 
