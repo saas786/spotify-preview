@@ -26,11 +26,19 @@ class App extends Component {
     }
 
     displayMessage = () => {
-        return (
-            <div className="alert alert-info">
-                <h4 className="alert-heading">Go ahead! Search for your favorite track.</h4>
-            </div>
-        )
+        if(this.state.query && this.state.tracks.length === 0) {
+            return (
+                <div className="alert alert-danger">
+                    <h4 className="alert-heading">Sorry no tracks found!.</h4>
+                </div>
+            )
+        } else {
+            return (
+                <div className="alert alert-info">
+                    <h4 className="alert-heading">Go ahead! Search for your favorite track.</h4>
+                </div>
+            )
+        }
     }
 
     loadAudioPlayer = () => {

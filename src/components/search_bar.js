@@ -24,9 +24,15 @@ class SearchBar extends Component {
         const secret = "2a2e332a64c0492898e69396221ed73a";
         let key = id + ":" + secret;
         key = btoa(key);
-        const authToken = await Axios.post(authUrl, {}, {
-            headers: { Authorization: "Basic " + key }
-        });
+        let authToken;
+        
+        try {
+            authToken = await Axios.post(authUrl, {}, {
+                headers: { Authorization: "Basic " + key }
+            });
+        } catch (error) {
+            throw error; //Authorization error
+        }
 
         return authToken.data;
     }

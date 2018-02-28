@@ -18,43 +18,51 @@ class AudioPlayer extends Component {
 
     getTrackData = async (id) => {
         let url = `${this.baseUrl}/v1/tracks/${id}`;
-        let trackData = Axios.get(url, {
-            headers: {
-                Authorization: "Bearer " + this.token.access_token
-            }
-        })
-        
-        return trackData;
+        let trackData = {};
+        try {
+            trackData = await Axios.get(url, {
+                headers: {
+                    Authorization: "Bearer " + this.token.access_token
+                }
+            });
+        } catch (error) {
+            console.log("Error getting selected track!");
+        } finally {
+            return trackData;
+        }
     };
 
     componentWillMount = async () => {
         let trackData = await this.getTrackData(this.props.audioTrackId);
-        this.setState(
-            {
-                previewTrack: trackData.data,
-                previewUrl: trackData.data.preview_url
-            }
-        );
-        //console.log("Mouont Id ", this.props.audioTrackId);        
-        //console.log("Mount Track : ", this.state.previewTrack.name);        
+        
+        if (Object.keys(trackData).length > 0) {
+            this.setState(
+                {
+                    previewTrack: trackData.data,
+                    previewUrl: trackData.data.preview_url
+                }
+            );
+        }
     };
 
     componentWillReceiveProps = async newProps => {
         let trackData = await this.getTrackData(newProps.audioTrackId);
-        this.setState(
-            {
-                previewTrack: trackData.data,
-                previewUrl: trackData.data.preview_url
+
+        if(Object.keys(trackData).length > 0) {
+            this.setState(
+                {
+                    previewTrack: trackData.data,
+                    previewUrl: trackData.data.preview_url
+                }
+            );
+            
+            // hack to re-load audio control
+            let element = ReactDOM.findDOMNode(this);
+            let audio = element.querySelector('audio');
+            if (audio) {
+                audio.load();
+                audio.play();
             }
-        );
-        //console.log("RecvProps Track : ", this.state.previewTrack.name);
-        
-        // hack to re-load audio control
-        let element = ReactDOM.findDOMNode(this);
-        let audio = element.querySelector('audio');
-        if (audio) {
-            audio.load();
-            audio.play();
         }
     };
 

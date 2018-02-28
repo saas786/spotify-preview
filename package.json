@@ -13,5 +13,18 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sayanm-10/spotify-preview.git"
+  },
+  "author": "Sayan Mukherjee [CWID 10430998]",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sayanm-10/spotify-preview/issues"
+  },
+  "homepage": "https://github.com/sayanm-10/spotify-preview#readme"
 }
